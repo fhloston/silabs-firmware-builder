@@ -1,5 +1,5 @@
-name: SkyConnect Zigbee
-device: EFR32MG21A020F512IM32
+name: Yellow Zigbee
+device: MGM210PA32JIA
 base_project: src/zigbee_ncp
 filename: "{manifest_name}_{ezsp_version}"
 sdk: "gecko_sdk:4.5.0"
@@ -12,19 +12,31 @@ gbl:
 
 sdk_extension:
   - id: xncp
+    vendor: nabucasa
     version: 1.0.0
   - id: xncp_common
+    vendor: nabucasa
+    version: 1.0.0
+  - id: board_activity
+    vendor: nabucasa
     version: 1.0.0
 
 add_components:
+- id: simple_led
+  instance: [board_activity]
+- id: board_activity_led
+  vendor: nabucasa
+  package: board_activity
 - id: xncp_core
-  from: xncp
+  vendor: nabucasa
+  package: xncp
 - id: xncp_common_commands
-  from: xncp_common
+  vendor: nabucasa
+  package: xncp_common
 
 c_defines:
   XNCP_MFG_MANUF_NAME: '"Nabu Casa"'
-  XNCP_MFG_BOARD_NAME: '"Home Assistant Connect ZBT-1"'
+  XNCP_MFG_BOARD_NAME: '"Home Assistant Yellow"'
   XNCP_BUILD_STRING: template:"{now:%Y%m%d%H%M%S}"
   XNCP_MANUAL_SOURCE_ROUTE_TABLE_SIZE: 200
 
@@ -51,14 +63,18 @@ c_defines:
   SL_IOSTREAM_USART_VCOM_PERIPHERAL_NO: 0
 
   SL_IOSTREAM_USART_VCOM_TX_PORT: gpioPortA
-  SL_IOSTREAM_USART_VCOM_TX_PIN:  6
+  SL_IOSTREAM_USART_VCOM_TX_PIN:  5
   SL_IOSTREAM_USART_VCOM_RX_PORT: gpioPortA
-  SL_IOSTREAM_USART_VCOM_RX_PIN:  5
-  SL_IOSTREAM_USART_VCOM_CTS_PORT: gpioPortB
-  SL_IOSTREAM_USART_VCOM_CTS_PIN:  1
-  SL_IOSTREAM_USART_VCOM_RTS_PORT: gpioPortB
-  SL_IOSTREAM_USART_VCOM_RTS_PIN:  0
+  SL_IOSTREAM_USART_VCOM_RX_PIN:  6
+  SL_IOSTREAM_USART_VCOM_CTS_PORT: gpioPortD
+  SL_IOSTREAM_USART_VCOM_CTS_PIN:  2
+  SL_IOSTREAM_USART_VCOM_RTS_PORT: gpioPortC
+  SL_IOSTREAM_USART_VCOM_RTS_PIN:  1
 
   SL_IOSTREAM_USART_VCOM_RX_BUFFER_SIZE: 128
 
-  SL_APPLICATION_PRODUCT_ID: '{0xE9, 0x92, 0x67, 0x94, 0xBB, 0x2C, 0x4E, 0xC8, 0x9F, 0x36, 0xD9, 0xC6, 0x79, 0x4A, 0x81, 0xFB}'
+  SL_SIMPLE_LED_BOARD_ACTIVITY_POLARITY: SL_SIMPLE_LED_POLARITY_ACTIVE_LOW
+  SL_SIMPLE_LED_BOARD_ACTIVITY_PORT:     gpioPortB
+  SL_SIMPLE_LED_BOARD_ACTIVITY_PIN:      1
+
+  BOARD_ACTIVITY_LED_INSTANCE: sl_led_board_activity
